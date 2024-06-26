@@ -27,48 +27,61 @@ class GFG {
 // } Driver Code Ends
 
 
-
-
-
-
-class Solution {
-   
-    public static void dfs(char[][] grid, boolean[][] vis, int row, int col) {
-        int n = grid.length;
-        int m = grid[0].length;
-        vis[row][col] = true;
-        
-        //traversa their neighbour and mark them land...
-        for(int delrow = -1; delrow <= 1; delrow++) {
-            for(int delcol = -1; delcol <= 1; delcol++) {
-                int newRow = row + delrow;
-                int newCol = col + delcol;
-                if(newRow >= 0 && newRow < n && newCol >= 0 && newCol < m && 
-                vis[newRow][newCol] == false && grid[newRow][newCol] == '1') {
-                    dfs(grid, vis, newRow, newCol);
-                }
-            }
-        }
+class Pair {
+    int row;
+    int col;
+    Pair(int row, int col) {
+        this.row = row;
+        this.col = col;
     }
-    
-    public int numIslands(char[][] grid) {
-       
-      int n = grid.length;
-        int m = grid[0].length;
-        boolean vis[][] = new boolean[n+1][m+1];
-        
-        int counter = 0;
-        for(int i=0; i< n; i++) {
-            for(int j=0; j<m; j++) {
-                if(vis[i][j] == false && grid[i][j] == '1') {
-                    counter++;
-                    dfs(grid, vis, i, j);
-                }
-            }
-        }
-        
-        return counter;
-    }
-
 }
 
+class Solution {
+    // Function to find the number of islands.
+    public int numIslands(char[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        // Visited matrix.
+        boolean[][] visited = new boolean[n][m];
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (!visited[i][j] && grid[i][j] == '1') {
+                    
+                    bfs(i, j, visited, grid);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    
+    void bfs(int row, int col, boolean[][] visited, char[][] grid) {
+        visited[row][col] = true;
+        Queue<Pair> queue = new LinkedList<>();
+        queue.add(new Pair(row, col));
+        int n = grid.length;
+        int m = grid[0].length;
+        
+        // 4 possible directions: up, down, left, right
+        int[] dRow = {-1,-1, 0, 1, 1, 1 ,0, -1};
+        int[] dCol = {0, +1, +1, +1, 0, -1, -1, -1};
+        
+        while (!queue.isEmpty()) {
+            int currRow = queue.peek().row;
+            int currCol = queue.peek().col;
+            queue.remove();
+            
+            // Traverse all 4 neighbors
+            for (int k = 0; k < 8; k++) {
+                int newRow = currRow + dRow[k];
+                int newCol = currCol + dCol[k];
+                if (newRow >= 0 && newRow < n && newCol >= 0 && newCol < m 
+                        && grid[newRow][newCol] == '1' && !visited[newRow][newCol]) {
+                    visited[newRow][newCol] = true;
+                    queue.add(new Pair(newRow, newCol));
+                }
+            }
+        }
+    }
+}
