@@ -49,7 +49,7 @@ class Solution {
        }
       
        for(int i = 0;i<P;i++){
-           adj.get(prerequisites[i][0]).add(prerequisites[i][1]);
+           adj.get(prerequisites[i][0]).add(prerequisites[i][1]); // doubt in this line..??????????????
        }
        
        //now write down the topoSort .
