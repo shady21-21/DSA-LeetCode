@@ -58,34 +58,44 @@ class Main {
 /*Complete the function below*/
 
 
-class Solution{
-    
+class Solution
+{
+    //Function to return list containing vertices in Topological order. 
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) {
-        Stack<Integer> stk = new Stack<>();
-        int[] vis = new int[V];
+        
+        //Step 1: First cal the indegree .
+        int[] indeg = new int[V];
         for(int i = 0;i<V;i++){
-            if(vis[i] == 0){
-                dfs(i, adj, vis,stk);
+            for(int it: adj.get(i)){
+                indeg[it]++;
+            }
+        }
+        //Step 2: Create a queue and put those node whose indeg are 0
+        Queue<Integer> q = new LinkedList<>();
+        for(int i = 0;i<V;i++){
+            if(indeg[i] == 0){
+                q.add(i);
             }
         }
         
-        int[]res = new int[V];
+        //Step 3: While my queue is't empty take out that node reduce their indeg and while removeing if indeg is 0 put that into Queue.
+        int[]ans = new int[V];
         int i = 0;
-        while(!stk.isEmpty()){
-          int currNode = stk.peek();
-          res[i++] = currNode;
-          stk.pop();
-        }
-        return res;
-    }
-    
-    static void dfs(int node,ArrayList<ArrayList<Integer>> adj, int[]vis, Stack<Integer>stk){
-        vis[node] = 1;
-        for(int it:adj.get(node)){
-            if(vis[it] == 0){
-                dfs(it, adj , vis, stk);
+        while(!q.isEmpty()){
+            int currNode = q.peek();
+            q.remove();
+            ans[i++] = currNode;
+            
+            //now check the currNode adj node.
+            for(int it: adj.get(currNode)){
+                //now decrease their indeg.
+                indeg[it] --;
+                //while decreaing if indeg is 0 put it into q.
+                if(indeg[it] == 0){
+                    q.add(it);
+                }
             }
         }
-        stk.push(node);
+        return ans;
     }
 }
