@@ -1,48 +1,37 @@
 class Solution {
     public int[] searchRange(int[] nums, int target) {
         
+        //this question is solve using BINARY SEACH.
+        int x = fistOc(0, target, nums);
+        int y = lastOc(nums.length-1, target, nums);
+        return new int[]{x, y};
         
-        int[]res = new int[2];
-        res[0] = FirstOcc(nums, target);
-        res[1] = LastOcc(nums, target);
-        return res;
     }
     
-    static int LastOcc(int[]arr, int target){
-        int n = arr.length;
-        int si = 0;
-        int ei = n-1;
-        int LastOcc = -1;
-        while(si<= ei){
-            int mid = (si+ei)/2;
-            if(arr[mid] == target){
-                LastOcc = mid;
-                si = mid+1;
-            }else if(arr[mid]<target){
-                si = mid+1;
-            }else{
-                ei = mid-1;
-            }
+    int fistOc(int index, int target, int[]arr){
+        if(index == arr.length){
+            return -1;
         }
-        return LastOcc;
+        
+        if(arr[index] == target){
+            return index;
+        }else{
+            return fistOc(index+1, target, arr);
+        }
     }
     
-     static int FirstOcc(int[]arr, int target){
-        int n = arr.length;
-        int si = 0;
-        int ei = n-1;
-        int FirstOcc = -1;
-        while(si<= ei){
-            int mid = (si+ei)/2;
-            if(arr[mid] == target){
-                FirstOcc = mid;
-                ei = mid-1;
-            }else if(arr[mid]<target){
-                si = mid+1;
-            }else{
-                ei = mid-1;
-            }
+    //for the last occurance.
+    int lastOc(int index, int target, int[]arr){
+        if(index == -1){
+            return -1;
         }
-        return FirstOcc;
+        
+        if(arr[index] == target){
+            return index;
+        }else{
+            return lastOc(index-1, target, arr);
+        }
     }
+    
+    
 }
