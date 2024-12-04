@@ -17,4 +17,10 @@ class Solution {
         
         return j == str2.length();
     }
+    
+//     Why is str1.charAt(i) == str2.charAt(j) - 1 Needed?
+
+//     For example, if str1.charAt(i) = 'c' and str2.charAt(j) = 'd', the ASCII code for          'c'     is 99, and 'd' is 100.
+//     str1.charAt(i) == str2.charAt(j) - 1 evaluates to 99 == 100 - 1, which is true.
+//     This allows 'c' to be considered as transformable into 'd'.
 }
